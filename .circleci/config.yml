@@ -1,0 +1,35 @@
+﻿version: 2
+jobs:
+ build:
+   machine: true
+   steps:
+     - checkout 
+      # install .net 5.0
+     - run: |
+         sudo apt-get clean
+         sudo apt-get update
+         sudo apt-get install dpkg
+         wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+         sudo dpkg -i packages-microsoft-prod.deb
+
+         sudo apt-get update; \
+          sudo apt-get install -y apt-transport-https && \
+          sudo apt-get update && \
+          sudo apt-get install -y dotnet-sdk-5.0
+
+         sudo apt-get update; \
+          sudo apt-get install -y apt-transport-https && \
+          sudo apt-get update && \
+          sudo apt-get install -y aspnetcore-runtime-5.0
+     # build image
+     - run: |         
+         docker info
+         docker build -t aspnetapp -f Dockerfile .
+
+     # deploy the image
+     - run: |         
+         docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
+         docker tag aspnetapp registry.heroku.com/$HEROKU_APP_NAME/web
+         docker push registry.heroku.com/$HEROKU_APP_NAME/web                
+         curl https://cli-assets.heroku.com/install.sh | sh
+         heroku container:release web -a $HEROKU_APP_NAME
