@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Clothesstore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
