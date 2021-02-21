@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Clothesstore
 {
@@ -23,8 +24,43 @@ namespace Clothesstore
             services.AddCors();
 
             //context and connection to data base
+            services.AddDbContext<ProductsContext>(x =>
+            {
 
-            services.AddDbContext<ProductsContext>(opts => opts.UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                string connStr;
+
+                if (env == "Development")
+                {
+                    connStr = Configuration.GetConnectionString("DemoConnection");
+
+
+                }
+                else
+                {
+                    // Use connection string provided at runtime by Heroku.
+                    var connUrl = Environment.GetEnvironmentVariable("CLEARDB_DATABASE_URL");
+
+                    connUrl = connUrl.Replace("mysql://", string.Empty);
+                    var userPassSide = connUrl.Split("@")[0];
+                    var hostSide = connUrl.Split("@")[1];
+
+                    var connUser = userPassSide.Split(":")[0];
+                    var connPass = userPassSide.Split(":")[1];
+                    var connHost = hostSide.Split("/")[0];
+                    var connDb = hostSide.Split("/")[1].Split("?")[0];
+
+
+                    connStr = $"server={connHost};Uid={connUser};Pwd={connPass};Database={connDb}";
+
+
+
+                }
+
+                x.UseMySql(connStr);
+
+            });
+
 
             services.AddControllers();
         }
