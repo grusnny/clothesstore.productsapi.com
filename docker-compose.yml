@@ -26,7 +26,8 @@ services:
     restart: always
     volumes:
       - db_volume:/var/lib/postgresql/data
-      - ./Scripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+      - ./app/Scripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+    
     environment:
       POSTGRES_USER: "clotthesstoreuser"
       POSTGRES_PASSWORD: "clotthesstoreuser"
