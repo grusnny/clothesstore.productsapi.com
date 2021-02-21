@@ -19,7 +19,8 @@ namespace Clothesstore
         }
 
         public static IWebHost BuildWebHost(string[] args){
-            var config = new ConfigurationBuilder()
+
+           var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddCommandLine(args)
         .Build();

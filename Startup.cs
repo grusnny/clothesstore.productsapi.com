@@ -1,3 +1,4 @@
+using Clothesstore.Context;
 using Clothesstore.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,12 +28,11 @@ namespace Clothesstore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-            services.AddDbContext<ApiDbContext>(options =>
-            options.UseNpgsql(
-            connectionString
-            )
-            );
+            services.AddCors();
+
+            //context and connection to data base
+
+            services.AddDbContext<ProductsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
         }

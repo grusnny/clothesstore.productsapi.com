@@ -1,4 +1,5 @@
-﻿using Clothesstore.Entities;
+﻿using Clothesstore.Context;
+using Clothesstore.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,20 +14,21 @@ namespace Clothesstore.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ApiDbContext _context;
+        private ProductsContext _context;
 
-        public ProductController(ApiDbContext context)
+        public ProductController(ProductsContext products)
         {
-            _context = context;
+            _context = products;
         }
+
 
         // GET: api/<ProductController>
         [HttpGet]
         public object Get()
         {
-            return _context.Products.Where(b => b.name.Contains("name")).Select((c) => new
+            return _context.Product.Where(b => b.name.Contains("name")).Select((c) => new
             {
-                Id = c.id,
+                Id = c.product_id,
                 Name = c.name,
                 price = c.price,
                 Thumbnail = c.thumbnail,
