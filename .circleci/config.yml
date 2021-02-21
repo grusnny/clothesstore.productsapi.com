@@ -7,9 +7,7 @@ jobs:
      # build image
      - run: |         
          docker info
-         docker-compose build 
-         ls -lart ./Scripts
-
+         docker build -t aspnetapp -f Dockerfile .
 
      # deploy the image
      - run: |         
