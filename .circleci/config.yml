@@ -9,7 +9,7 @@ jobs:
          docker info
          docker-compose build 
          ls -lart ./Scripts
-         docker-compose up
+
 
      # deploy the image
      - run: |         
