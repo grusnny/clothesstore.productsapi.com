@@ -57,7 +57,7 @@ namespace Clothesstore
 
                 }
 
-                x.UseMySql(connStr);
+                x.UseSqlServer(connStr);
 
             });
 
