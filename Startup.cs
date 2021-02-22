@@ -48,6 +48,7 @@ namespace Clothesstore
                     var connUser = userPassSide.Split(":")[0];
                     var connPass = userPassSide.Split(":")[1];
                     var connHost = hostSide.Split("/")[0];
+                    connHost = connHost + ":5432";
                     var connDb = hostSide.Split("/")[1].Split("?")[0];
 
 
