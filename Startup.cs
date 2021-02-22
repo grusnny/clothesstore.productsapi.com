@@ -39,7 +39,7 @@ namespace Clothesstore
                 else
                 {
                     // Use connection string provided at runtime by Heroku.
-                    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                    var connUrl = Environment.GetEnvironmentVariable("DB_DATABASE_URL");
 
                     connUrl = connUrl.Replace("postgres://", string.Empty);
                     var userPassSide = connUrl.Split("@")[0];
